@@ -37,3 +37,15 @@ An example file with test output is placed under `/test_data`. You can see the s
 ![example input output comparison](./pdbrotation.png)
 
 
+Note that the rotation is currently performed along the y axis only(assuming the first axis is x, then y, then z). If you want to rotate all 3 axises, make two other variations of `rotation_matrix` in `pdb_rotation.py`, and replace this line 
+```
+pdb_file.df['ATOM'][['x_coord', 'y_coord', 'z_coord']] = (rotation_matrix @ pdb_file.df['ATOM'][['x_coord', 'y_coord', 'z_coord']].T).T+translation
+
+```
+with
+```
+pdb_file.df['ATOM'][['x_coord', 'y_coord', 'z_coord']] = (rotation_matrix_along_z @ rotation_matrix_along_x @ rotation_matrix_along_y @ pdb_file.df['ATOM'][['x_coord', 'y_coord', 'z_coord']].T).T+translation
+```
+
+
+
